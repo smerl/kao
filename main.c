@@ -36,21 +36,24 @@ int main(int argc, char **argv)
 	}
 
 	if (pcap_compile(handle, &fp, filter_exp, 0, 0) == -1) {
-		fprintf(stderr, "Couldn't parse filter %s: %s\n", filter_exp, pcap_geterr(handle));
+		fprintf(stderr, "Couldn't parse filter %s: %s\n",
+			filter_exp, pcap_geterr(handle));
 		return -3;
 	}
 
 	if (pcap_setfilter(handle, &fp) == -1) {
-		fprintf(stderr, "Couldn't install filter %s: %s\n", filter_exp, pcap_geterr(handle));
+		fprintf(stderr, "Couldn't install filter %s: %s\n",
+			filter_exp, pcap_geterr(handle));
 		return -4;
 	}
 
-	pcap_loop(handle, 0, packet_handler, NULL);
+	pcap_loop(handle, 100, packet_handler, NULL);
 
 	return EXIT_SUCCESS;
 }
 
-void packet_handler(u_char *param, const struct pcap_pkthdr *header, const u_char *data) 
+void packet_handler(u_char *param, const struct pcap_pkthdr *header,
+	const u_char *data) 
 {
 	static int count = 1;
 	int i = 0;
@@ -62,6 +65,8 @@ void packet_handler(u_char *param, const struct pcap_pkthdr *header, const u_cha
 	
 	const struct ether_header *eth_header;
 	eth_header = (struct ether_header*)(data);
+	u_short eth_type; 
+	eth_type = ntohs(eth_header->ether_type);
 	printf("Src MAC "); print_mac(eth_header->ether_shost); printf("\n");
 	printf("Dst MAC "); print_mac(eth_header->ether_dhost); printf("\n");
 

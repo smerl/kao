@@ -2,9 +2,11 @@ CC=gcc
 #CFLAGS=-W -Wall -ansi -pedantic
 CFLAGS=
 LDFLAGS=-lpcap
+MAKE=make
 EXEC=kao
 
 all: $(EXEC)
+	$(MAKE) clean
 
 kao: utils.o main.o
 	$(CC) -o kao utils.o main.o $(LDFLAGS)
