@@ -1,6 +1,6 @@
 CC=gcc
 #CFLAGS=-W -Wall -ansi -pedantic
-CFLAGS=
+CFLAGS=-g3
 LDFLAGS=-lpcap
 MAKE=make
 EXEC=kao
@@ -9,7 +9,7 @@ all: $(EXEC)
 	$(MAKE) clean
 
 kao: utils.o main.o
-	$(CC) -o kao utils.o main.o $(LDFLAGS)
+	$(CC) -o kao utils.o main.o $(CFLAGS) $(LDFLAGS)
 
 utils.o: utils.c
 	$(CC) -o utils.o -c utils.c $(CFLAGS)
@@ -20,6 +20,9 @@ main.o: main.c utils.h
 clean:
 	rm -rf *.o
 
-mrproper: clean
+fclean:
+	$(MAKE) clean
 	rm -rf $(EXEC)
+
+re: fclean all
 

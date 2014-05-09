@@ -25,7 +25,7 @@ int main(int argc, char **argv)
 	}
 
 	char *filename = argv[1];
-	char *filter_exp = argv[2];	
+	char *filter_exp = argv[2];
 	char errbuf[PCAP_ERRBUF_SIZE];
 	pcap_t *handle;
 	struct pcap_pkthdr *header;
@@ -51,13 +51,16 @@ int main(int argc, char **argv)
 		return -4;
 	}
 
-	pcap_loop(handle, 0, packet_handler, NULL);
+	pcap_loop(handle, 100, packet_handler, NULL);
+
+	pcap_freecode(&fp);
+	pcap_close(handle);
 
 	return EXIT_SUCCESS;
 }
 
 void packet_handler(u_char *param, const struct pcap_pkthdr *header,
-	const u_char *data) 
+	const u_char *data)
 {
 	static int count = 1;
 	int i = 0;
@@ -86,9 +89,9 @@ void packet_handler(u_char *param, const struct pcap_pkthdr *header,
 
 u_int16_t eth_handler(u_char *param, const struct pcap_pkthdr *header,
 	const u_char *data)
-{	
+{
 	const struct ether_header *eth_header;
-	u_short eth_type; 
+	u_short eth_type;
 	char *s_mac;
 	char *d_mac;
 
