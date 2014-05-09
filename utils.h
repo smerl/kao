@@ -1,8 +1,8 @@
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef _UTILS_H_
+#define _UTILS_H_
 
 #include <netinet/ip.h>
 
-void print_mac(const u_int8_t *);
+char* get_mac(const u_int8_t *);
 
 #endif
